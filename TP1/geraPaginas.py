@@ -1,6 +1,23 @@
 import json,os,re
 import xml.etree.ElementTree as ET
 
+
+def escreveParagrafos(elemento):
+    html=""
+    html += f'<p>'     
+    for element in elemento.iter():
+        if element.tag == 'lugar':
+            html += f'{element.text}'
+            html += str(element.tail)
+        elif element.tag == 'data':
+            html += f'{element.text}'
+            html += str(element.tail)
+        else:
+            html += str(element.text)
+    html += f'</p>\n'
+    return html
+
+
 def gerar_pagina_html(arquivo_xml):
     # Parseia o XML
     tree = ET.parse("./MapaRuas-materialBase/texto/" + arquivo_xml)
@@ -36,13 +53,7 @@ def gerar_pagina_html(arquivo_xml):
             html += f'</figure>\n'
             os.chdir(os.path.dirname(__file__))
         elif elemento.tag == 'para':
-            html += f'<p>'
-            for subelemento in elemento:
-                if subelemento.tag == 'lugar':
-                    html += f'<span class="lugar">{subelemento.text}</span>'
-                else:
-                    html += subelemento.text
-            html += f'</p>\n'
+            html+= escreveParagrafos(elemento)
         elif elemento.tag == 'lista-casas':
             html += '<ul>\n'
             for casa in elemento.findall('casa'):
@@ -56,7 +67,14 @@ def gerar_pagina_html(arquivo_xml):
                     foro = casa.find('foro').text
                 else:
                     foro="N/A"
-                html += f'<li>Número da casa: {numero_casa}, Enfiteuta: {enfiteuta}, Foro: {foro}</li>\n'
+
+                if casa.find('desc') is not None:
+                    for elem in casa.find('desc'):
+                        desc= escreveParagrafos(elem)
+                else:
+                    desc="N/A"
+                    
+                html += f'<li>Número da casa: {numero_casa}, Enfiteuta: {enfiteuta}, Foro: {foro}, Descricao: {desc}</li>\n'
             html += '</ul>\n'
 
     html += '</div>\n'
