@@ -1,0 +1,14 @@
+{
+  "name": "gestao_compositores",
+  "version": "1.0.0",
+  "description": "Trata da gestao de compositores tpc4",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "author": "Pedro Carneiro a100652",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7"
+  }
+}
