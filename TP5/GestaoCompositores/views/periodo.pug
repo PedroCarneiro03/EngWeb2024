@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .w3-card-4
+        header.w3-container.w3-pink
+            h1= titulo
+        .w3-container
+            p Id: #{periodo.id}
+            p Nome: #{periodo.nome}
+            p Origem: #{periodo.origem}
+            p Seculo: #{periodo.sec}
+            p Descricao: #{periodo.desc}
+        footer.w3-container.w3-pink
+            address Gerado por EngWeb2024 em #{data}
+            a(href="/periodos") Voltar 
